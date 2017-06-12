@@ -2,6 +2,7 @@
 A server setup for Metanoia MetaZombies Event
 
 You will require:
+__________________
 -Selenium (Pacman)
 -Firefox
 -GeckoDriver(Download)
