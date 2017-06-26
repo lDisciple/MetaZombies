@@ -13,11 +13,10 @@ from selenium.common.exceptions import WebDriverException as WebDriverException
 
 class WhatsappHandler(threading.Thread):
 
-	def __init__(self):
-		#TODO Make config file
+	def __init__(self,geckoPath):
 		threading.Thread.__init__(self)
 		self._URL = "https://web.whatsapp.com/"
-		self._DRIVER_PATH = '/home/jonathan/python/Whatsapp/WebWhatsapp/geckodriver'
+		self._DRIVER_PATH = geckoPath
 		self._isConnected = False
 		self._isReady = False
 		self._driver = None
@@ -38,7 +37,7 @@ class WhatsappHandler(threading.Thread):
 				if isConnected.lower() == 'y':
 					break
 			self._isConnected = True
-			self._driver.set_window_size(1366, 100000)
+			self._driver.set_window_size(1366, 100000)#TODO Change
 			while True:
 				resized = input(col("Is the window resized? y/n: \n>", ColorText.HEADER))
 				if resized.lower() == 'y':
@@ -72,6 +71,41 @@ class WhatsappHandler(threading.Thread):
 		self._driver.set_window_size(1366, 100000)
 #Whatsapp Functional commands
 
+	def addGroupParticipant(self,group,contact):
+		True #TODO Finish stub
+		#Select Group
+		self.selectContact(group,False)
+		#Click header 
+		self.clickElement("//div[@id='main']//*[@class='chat-title']")
+		#Click add participant
+		self.clickElement("//div[@class='app three']//div[@title='Add participant'][1]")
+		#Select input field and input contact name & enter
+		self.waitForAndClick("//div[@class='popup-body']//button")
+		inputArea = self._driver.find_element(By.XPATH, "//div[@class='popup-contents']//input")
+		inputArea.send_keys(contact)
+		inputArea.send_keys(Keys.RETURN)
+		#Confirm
+		self.waitForAndClick("//button[@class='btn-plain btn-default popup-controls-item']")
+		#Close side pane, select old contact
+		self.waitForAndClick("//body/div[@id='app']//header[@class='pane-header']//button")
+	
+	def selectContactAt(self, num):
+		True#TODO Finish Stub
+
+	def sendToSelected(self,message):
+		if checkFor("//*[@id='main']//div[@class='input']",False):
+			#Enter text into input of selected contact
+			messageArea = self._driver.find_element(By.XPATH, "//*[@id='main']//div[@class='input']")
+			messageArea.click()
+			messageArea.send_keys(message)
+			#Click send button if available (Wont be if no text entered)
+			try:
+				compose = self._driver.find_element(By.XPATH, "//*[@id='main']//button[@class='icon icon-send compose-btn-send']")
+				compose.click()
+			except selenium.common.exceptions.NoSuchElementException:
+				if showText:
+					print("No message entered")
+
 	def sendMessage(self,contact,message, showText = True):
 		self.selectContact(contact,False)
 		#Enter text into input of selected contact
@@ -86,11 +120,6 @@ class WhatsappHandler(threading.Thread):
 			if showText:
 				print("No message entered")
 
-	def sendBroadcast(self,phoneNumbers,message):
-		#TODO finish stub
-		numberList = phoneNumbers.split(",")
-		True
-	
 	def selectContact(self,name, showText = True):
 		#Get search box input area
 		searchBox = self._driver.find_element(By.XPATH, '//*[@id="side"]//input')
@@ -153,7 +182,11 @@ class WhatsappHandler(threading.Thread):
 			for message in reversed(messageList):
 				if str(message.get_attribute("data-id")) == self._lastMessageIDs[contactName]:
 					break
-				print(contactName + ": " + message.text)
+				comms = message.text.split(" ")
+				comms.insert(1,contactName)
+				retCommand = " ".join(comms)
+				self._commands.insert(0,retCommand)
+		#TODO add last message id to list
 		#Compare current contact to first and reset state		
 		curContactTitle = self._driver.find_element(By.XPATH, '//*[@id="main"]//span[@class="emojitext ellipsify"]').text
 		if len(prevContactTitle) != 0 and curContactTitle != prevContactTitle:
@@ -235,13 +268,15 @@ class WhatsappHandler(threading.Thread):
 	
 #Browser-based commands
 	
-	def checkFor(self,path):
+	def checkFor(self,path, showText = True):
 		try:
 			we = self._driver.find_element(By.XPATH, path)
-			print("Found")
+			if showText:
+				print("Found")
 			return True
 		except selenium.common.exceptions.NoSuchElementException:
-			print("Not found")
+			if showText:
+				print("Not found")
 			return False
 	
 	def printElementsAt(self,path):
