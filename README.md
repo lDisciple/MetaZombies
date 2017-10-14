@@ -12,10 +12,10 @@ Mobile package instructions:
 -----------------------------------------------------------------------
 - Get the gecko driver
 - Install selenium
--Now inside whatsappHandler.py you must put the path to geckoDriver after "self._DRIVER_PATH"
--After that you can start mainHandler which should create a browser session.
--Log in to web.whatsapp with your phone
--Now you can input commands through Task_* files in TODO or stdin
+- Now inside whatsappHandler.py you must put the path to geckoDriver after "self._DRIVER_PATH"
+- After that you can start mainHandler which should create a browser session.
+- Log in to web.whatsapp with your phone
+- Now you can input commands through Task_* files in TODO or stdin
 
 Current commands are:
 _____________________
