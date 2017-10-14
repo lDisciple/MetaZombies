@@ -1,0 +1,42 @@
+Whatsapp Commands:
+
+kill(userID,killerID, successful)
+package(userID,successful)
+revive(userID, successful)
+news(newsText)
+zednews(newsText)
+endGame
+
+**NOTE**
+Claims have booleans for successful or not, any website claim will be successful,
+Used in the bouncing of kills (I send claim command to attempt a kill then,
+You return kill command to me in getUpdates() with the result.)
+
+Web server Commands
+
+getUserData()
+Returns delimited text of lines with each line containing:
+UserID, Username, Human or zombie status
+
+getUserStatus(userID)
+Gets the username,hearts, 
+human/zed status, 
+time till next heart degrade
+[Any other data that you would claim useful]
+
+claim(code):
+Return True or False
+Used to claim kills,packages and revives
+
+getUpdates()
+Main long-polling command.
+Return commands based on what users do on the website and anything else.
+Return text in the form of:
+One command per line
+Example command:
+	kill~~2hbjb234hj1~~True
+
+getLeaderboard()
+return leaderboard in delimited file.
+
+
