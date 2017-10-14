@@ -1,15 +1,37 @@
 # MetaZombies
 A server setup for Metanoia MetaZombies Event
 
+-----------------------------------------------------------------------
+Website Instructions
+-----------------------------------------------------------------------
+You will require:
+__________________
+- A web server (locally hosted or not)
+- PHP
+- MariaDB
+
+
+
+Installation:
+_____________
+
+- Copy all files in Website into yor html path.
+- Setup a database using the structure in DatabaseStructure.sql.
+- Then your website should be live.
+
+-----------------------------------------------------------------------
+Mobile package instructions:
+-----------------------------------------------------------------------
+
 You will require:
 __________________
 - Selenium (Pacman)
 - Firefox
 - GeckoDriver(Download)
 
------------------------------------------------------------------------
-Mobile package instructions:
------------------------------------------------------------------------
+Installation:
+_____________
+
 - Get the gecko driver
 - Install selenium
 - Now inside whatsappHandler.py you must put the path to geckoDriver after "self._DRIVER_PATH"
@@ -33,4 +55,6 @@ _____________________
 - click < xpath of component                           || Clicks component
 - getAt < xpath of component                           || Gets components at path   
 
-*A config file will be added at a later stage
+
+Example:
+send~~lDisciple~~Hello my friend.
